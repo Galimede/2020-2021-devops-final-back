@@ -3,6 +3,10 @@ jobs:
   build:
     docker:
       - image: circleci/python:3.7.9-stretch-browsers
+        environment:
+          FLASK_APP: autoapp.py
+          CONDUIT_SECRET: 'something-really-secret'
+          FLASK_DEBUG: 1
     steps:
       - checkout
       - restore_cache:
@@ -40,6 +44,7 @@ jobs:
       - run: 
           name: Launching tests
           command: |
+            . venv/bin/activate
             flask db upgrade
             flask test
 
