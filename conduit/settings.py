@@ -27,8 +27,8 @@ class Config(object):
         'http://localhost:4000',
         'http://0.0.0.0:' + os.environ.get('$PORT', '8080'),
         'https://0.0.0.0:' + os.environ.get('$PORT', '8080'),
-        os.environ.get('$BACK_PROD_URL'),
-        os.environ.get('FRONT_PROD_URL'),
+        os.environ.get('$BACK_PROD_URL', ''),
+        os.environ.get('FRONT_PROD_URL', ''),
     ]
     JWT_HEADER_TYPE = 'Token'
 
