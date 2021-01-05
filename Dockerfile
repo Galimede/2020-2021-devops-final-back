@@ -11,5 +11,4 @@ EXPOSE 8000
 
 RUN flask db upgrade
 
-ENTRYPOINT["python"]
-CMD["autoapp.py"]
+CMD["python", "autoapp.py"]
