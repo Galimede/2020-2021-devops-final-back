@@ -25,7 +25,7 @@ class Config(object):
         'http://localhost:4200',
         'http://0.0.0.0:4000',
         'http://localhost:4000',
-        os.environ.get('PROD_URL')
+        os.environ.get('FRONT_PROD_URL')
     ]
     JWT_HEADER_TYPE = 'Token'
 
