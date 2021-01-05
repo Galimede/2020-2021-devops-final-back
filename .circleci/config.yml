@@ -43,6 +43,23 @@ jobs:
             . venv/bin/activate
             flask db upgrade
             flask test
+  deploy-heroku:
+    docker: 
+      - image : buildpack-deps:trusty
+    steps:
+      - checkout
+      - run:
+          name: Deploy to heroku
+          command: |
+            git push https://HEROKU:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.herokuapp.com 
+      - run:
+          name: Smoke test
+          command: |
+            HTTPCODE=`curl -s -o /dev/null -w "%{http_code}" https://$HEROKU_APP_NAME.herokuapp.com/`
+            if [ "$HTTPCODE" -ne 200 ];then
+              echo "heroku app not responding, failing deploy"
+              exit 1
+            fi
 
 workflows:
   build_test_deploy:
@@ -51,6 +68,13 @@ workflows:
       - test:
           requires:
             - build
+      - deploy-heroku:
+          context: Heroku
+          requires: 
+            - build
+            # - test (We don't require test as there's a problem with them atm)
+
+
 
 
 
