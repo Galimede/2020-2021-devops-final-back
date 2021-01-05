@@ -61,6 +61,26 @@ jobs:
               echo "heroku app not responding, failing deploy"
               exit 1
             fi
+  docker-build-push:
+    working_directory: /dockerapp
+    docker:
+      - image: docker:17.05.0-ce-git
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name:  dockerize the app 
+          command: |
+            docker build --cache-from=app -t app .
+      - run: 
+          name: Publish app to docker hub
+          command: |
+            docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
+            docker tag app $DOCKER_HUB_USERNAME/tp-devops-final-api:$CIRCLE_BUILD_NUM
+            docker tag app $DOCKER_HUB_USERNAME/tp-devops-final-api:latest
+            docker push $DOCKER_HUB_USERNAME/tp-devops-final-api:$CIRCLE_BUILD_NUM
+            docker push $DOCKER_HUB_USERNAME/tp-devops-final-api:latest
+
 
 workflows:
   build_test_deploy:
@@ -74,6 +94,12 @@ workflows:
           requires: 
             - build
             # - test (We don't require test as there's a problem with them atm)
+      - docker-build-push:
+          context: Docker
+          requires: 
+            - build
+            # - test (We don't require test as there's a problem with them atm)
+
 
 
 
