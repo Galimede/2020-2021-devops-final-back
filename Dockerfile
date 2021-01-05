@@ -5,7 +5,7 @@ WORKDIR /app
 
 ENV FLASK_APP=autoapp.py
 
-RUN pip install -r requirements.txt
+RUN pip install -r requirements/dev.txt
 
 EXPOSE 8000
 
