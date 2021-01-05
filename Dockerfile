@@ -9,5 +9,7 @@ RUN pip install -r requirements/dev.txt
 
 EXPOSE 8000
 
-CMD["flask", "db", "upgrade"]
-CMD["python", "autoapp.py"]
+RUN flask db upgrade
+
+ENTRYPOINT["python"]
+CMD["autoapp.py"]
