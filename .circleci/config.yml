@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/python:3.9-stretch-browsers
+      - image: 3.9-buster-node-browsers
     steps:
       - checkout
       - restore_cache:
@@ -19,7 +19,7 @@ jobs:
             - "venv"
   test:
     docker: 
-      - image: circleci/python:3.9-stretch-browsers
+      - image: 3.9-buster-node-browsers
         environment:
           DATABASE_URL: postgresql://myUsr:somePwd@localhost:5432/psdb
           FLASK_APP: autoapp.py
